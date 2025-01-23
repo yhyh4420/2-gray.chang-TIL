@@ -9,4 +9,6 @@ DTO(Data Transfer Object), 말 그대로 데이터 전송 객체이다. 계층�
 <img src="https://hudi.blog/static/9a11ff7dc9390be191f60fac775079fb/5c3fb/dto.png">
 출처 : https://hudi.blog/data-transfer-object/
 
-활자로는 이해가 되지만.. 사실 그냥 객체를 사용하는 것에 비해서 큰 이점을 느끼지 못하고 있다. 질문 노션에 질문 남겼으니 더 공부하고 이해해서 업데이트해야겠다.
+QA결과, DTO는 내가 이해한 것 처럼 계층간 자료 전달을 위한 역할을 하는 것이 맞다.<br>
+다만, DTO를 사용하는 목적은 코드의 유지보수성 차원, 책임분리 목적으로 사용한다.<br>
+(가독성 및 리뷰 측면의 직관성은 떨어질 것 같다는 것이 내 개인적인 의견)
