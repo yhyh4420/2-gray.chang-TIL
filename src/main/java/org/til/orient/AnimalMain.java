@@ -16,5 +16,12 @@ public class AnimalMain {
         human.bark();
         human.eat();
         human.sayHello();
+        System.out.println("--------------------");
+        Dog dogNew = new Dog("test", "meatTest");
+        dogNew.setSpecies("시츄");
+        dogNew.setFood("chicken");
+        dogNew.bark();
+        dogNew.eat();
+        dogNew.sayHello();
     }
 }
