@@ -9,3 +9,4 @@
 * [JVM](TIL_sortbyContents/JVM.md)
 * [DTO](TIL_sortbyContents/DTO.md)
 * [String](TIL_sortbyContents/String.md)
+* [Garbage Collector](TIL_sortbyContents/Garbage_Collector.md)
