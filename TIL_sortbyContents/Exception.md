@@ -22,3 +22,44 @@ Error과 Exception 둘 다 객체이다. 둘 다 Throwable이라는 클래스를
 RuntimeException을 제외한 다른 자식클래스는 컴파일 에러를 다룬다고 이해하면 편하겠다.<br>
 RuntimeException과 Error 클래스는 Unchecked Exception(명시적 처리를 안해도 되는 예외)이다.<br>
 반면 다른 컴파일 예외의 경우 반드시 예외를 처리해야 하는 Checked Exception이다.
+
+* Unchecked Exception
+  * 명시적 처리를 안해도 됨
+  * RuntimeException과 그 하위 예외들에 적용
+    * NullPointerException
+    * IllegalArgumentException
+    * IndexOutoOfBoundException 등등
+* Checked Exception
+  * 명시적 처리를 꼭 해야함,안해주면 컴파일 단계에서 에러남
+  * IOException
+  * SQLException 등등
+
+사실 Checked Exception을 강제하는 문법은 불편함이 있어 최근에는 Unchecked Exception으로 예외를 바꿔도 예외처리가 가능한 문법이 나왔다.
+
+```java
+import java.io.IOException;
+
+public static void install() {
+   {
+    throws new RuntimeException(new IOException("설치할 공간이 부족합니다"))
+           //checked Exception인 IOException을 Unchecked Exception인 RuntimeException으로 감싸서 처리
+   }
+}
+```
+흔히 보는 RuntimeException 정리<br>
+
+|              예외 타입              |              설명              |
+|:-------------------------------:|:----------------------------:|
+|       ArithmeticException       |        비정상적인 계산 시 발생         |
+|       NulllPointException       |       Null 객체 참조 시 발생        |
+|    IllegalArgumentException     |    메소드의 전달 인자값이 잘못된 경우 발생    |
+|      IllegalStateException      |  객체의 상태가 메소드 호출에 부적합할 경우 발생  |
+|    IndexOutOfBoundException     |    Index값이 범위를 넘어갈 경우 발생     |
+|  UnsupportedOperationException  |    객체가 메소드를 지원하지 않을 경우 발생    |
+|        SecurityException        |  보안 위반 발생 시 보안 관리 프로그램에서 발생  |
+|        ProviderException        |        구성 공급자 오류 시 발생        |
+|     NoSuchElementException      |      구성요소가 더이상 없을 경우 발생      |
+|       ArrayStoreException       |   객체 배열에 잘못된 객체 유형 저장 시 발생   |
+|       ClassCastException        |     클래스 간의 형 변환 오류 시 발생      |
+|       EmptyStackException       |  스택이 비엉있는데 요소를 제거하려고 할 시 발생  |
+
