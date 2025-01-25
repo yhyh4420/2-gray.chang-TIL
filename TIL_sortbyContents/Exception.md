@@ -48,18 +48,18 @@ public static void install() {
 ```
 흔히 보는 RuntimeException 정리<br>
 
-|              예외 타입              |              설명              |
-|:-------------------------------:|:----------------------------:|
-|       ArithmeticException       |        비정상적인 계산 시 발생         |
-|       NulllPointException       |       Null 객체 참조 시 발생        |
-|    IllegalArgumentException     |    메소드의 전달 인자값이 잘못된 경우 발생    |
-|      IllegalStateException      |  객체의 상태가 메소드 호출에 부적합할 경우 발생  |
-|    IndexOutOfBoundException     |    Index값이 범위를 넘어갈 경우 발생     |
-|  UnsupportedOperationException  |    객체가 메소드를 지원하지 않을 경우 발생    |
-|        SecurityException        |  보안 위반 발생 시 보안 관리 프로그램에서 발생  |
-|        ProviderException        |        구성 공급자 오류 시 발생        |
-|     NoSuchElementException      |      구성요소가 더이상 없을 경우 발생      |
-|       ArrayStoreException       |   객체 배열에 잘못된 객체 유형 저장 시 발생   |
-|       ClassCastException        |     클래스 간의 형 변환 오류 시 발생      |
-|       EmptyStackException       |  스택이 비엉있는데 요소를 제거하려고 할 시 발생  |
+|              예외 타입              |             설명              |
+|:-------------------------------:|:---------------------------:|
+|       ArithmeticException       |        비정상적인 계산 시 발생        |
+|       NulllPointException       |       Null 객체 참조 시 발생       |
+|    IllegalArgumentException     |   메소드의 전달 인자값이 잘못된 경우 발생    |
+|      IllegalStateException      | 객체의 상태가 메소드 호출에 부적합할 경우 발생  |
+|    IndexOutOfBoundException     |    Index값이 범위를 넘어갈 경우 발생    |
+|  UnsupportedOperationException  |   객체가 메소드를 지원하지 않을 경우 발생    |
+|        SecurityException        | 보안 위반 발생 시 보안 관리 프로그램에서 발생  |
+|        ProviderException        |       구성 공급자 오류 시 발생        |
+|     NoSuchElementException      |     구성요소가 더이상 없을 경우 발생      |
+|       ArrayStoreException       |  객체 배열에 잘못된 객체 유형 저장 시 발생   |
+|       ClassCastException        |     클래스 간의 형 변환 오류 시 발생     |
+|       EmptyStackException       |  스택이 비있는데 요소를 제거하려고 할 시 발생  |
 
