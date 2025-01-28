@@ -61,4 +61,3 @@ public static void main(String[] args) {
 ```
 
 이처럼 람다식과 적절히 섞어 사용한다면 null에 대해 효과적으로 대응하면서 NPE를 발생시키지 않을 수 있다. 다만 Wrapper Class이므로 만약 객체가 앞으로도 null이 아니라고 확신하다면 굳이 쓰지 않아도 되지 않을까 싶다.
-
