@@ -49,3 +49,11 @@
 * 토큰이 탈취당하면 해당 토큰으로 사이트 접속이 가능하다. 그래서 토큰에 유효기간을 설정한 Refresh Token을 사용한다.
   * 서버에서 토큰을 보낼 때 일반 토큰(Access Token)과 리프레시 토큰을 같이 발급한다.
   * Access token이 만료되도 Refresh token이 살아있으면 Access token을 재발급해준다
+
+----
+오늘 팀 회고에서 나왔던 의문. daisy가 JWT 적용 프로젝트에서 DB를 쓴 경험이 있다고 해서 '그럼 세션이랑 기능이 동일하지 않나요?'라고 한 질문에 대해 leo가 좋은 포스팅을 공유해줬다.
+### Access, Refresh 토큰을 DB에 저장해야 하는 이유([출처 : 티스토리 블로그](https://dev-jhl.tistory.com/entry/Spring-Security-JWT-Access-Refresh-%ED%86%A0%ED%81%B0%EC%9D%84-DB%EC%97%90-%EC%A0%80%EC%9E%A5%ED%95%B4%EC%95%BC%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0))
+생각보다 많은 사람들이 나같은 의문을 가지고 있는 것 같다.([stack overflow](https://stackoverflow.com/questions/42763146/does-it-make-sense-to-store-jwt-in-a-database), [Stack Exchange](https://softwareengineering.stackexchange.com/questions/373109/should-we-store-jwts-in-database))<br>
+DB를 유지하는 이유는 JWT를 사용하면서 자동로그인 기능을 더 견고하게 유지하기 위해서라고 이해된다.
+* 위 글에서 언급된 아키텍쳐를 대충 뜯어보자면, 각 서버에서 별도의 토큰DB를 참조하고, 이를 통해 서버가 다운되도 정보가 유지된다는 장점을 가져간다.
+* 사실 아직도 드는 의문은 '이럴거면 세션쓰지'인데, kevin에게 질의를 남겼으니 한번 답변을 보고 다시 정리해야겠다.
