@@ -48,7 +48,6 @@ public class ExceptionMain {
         finally는 예외처리 로직이 실행되어도 반드시 수행되어야 하는 로직들을 넣는다.
          */
         int a = 1;
-        int b = 2;
         int c = 0;
         try {
             int d = a/c;
