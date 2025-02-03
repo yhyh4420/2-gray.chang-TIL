@@ -28,3 +28,8 @@
 
 ### FE
 * [CRP, DOM, CSSOM, Virtual DOM](TIL_sortbyContents/CRP_and_Virtual_DOM.md)
+
+---
+### Repository critical history
+- 2025.01.21. Initialize Repository
+- 2025.02.03. Transfer Repository to organization(100-hours-a-week)
