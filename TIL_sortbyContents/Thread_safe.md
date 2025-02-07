@@ -20,14 +20,19 @@ Thread-safe는 멀티스레드 환경에서 쓰인다. 멀티스레드 환경에
 ### 2. 원자 연산(Atomic Operation)
 원자 연산이란 한 연산에 한번의 행위만 수행되는 연산을 의미한다. 두 가지 예를 들어보자.
 ```java
-int sum = 0;
+int sum = 0
 sum++; // 원자연산 아님
-sum += 1 // 원자연산임
+
+AtomicInteger sum = new AtomicInteger(0);
+sum.incrementAndGet(); // 원자연산임
 ```
 두 연산 모두 sum에 1을 더하는 하나의 연산이지만 로직에 차이가 있다.<br>
 첫번째 연산은 sum을 메모리에서 꺼내옴 -> sum에 1을 더함 -> 다시 메모리에 저장함 이라는 3가지 행위가 이루어지고, 두번째 연산은 sum에 1을 더하는 행위만 이루어진다.<br>
 이 둘의 차이는 다음을 확인해봐도 알 수 있다.
+
 ```java
+import java.util.concurrent.atomic.AtomicInteger;
+
 public static void main(String[] args) {
     AtomicOperation operation = new AtomicOperation();
 
@@ -44,7 +49,7 @@ public static void main(String[] args) {
     thread3.start();
 }
 
-public class AtomicOperation  {
+public class AtomicOperation {
 
     private int count = 0;
 
@@ -58,21 +63,21 @@ public class AtomicOperation  {
     }
 }
 
-public class AtomicOperation  {
+public class AtomicOperation {
 
-    private int count = 0;
+    private AtomicInteger count = 0;
 
     public void increment() {
-        count++;
+        count.incrementAndGet();
         //count += 1;
     }
 
     public int getCount() {
-        return count;
+        return count.get();
     }
 }
 ```
-여러번 코드를 실행해보면 ```count++```를 할 경우 결과가 1,2,3이 고루 나오지 않을 수 있고, ```count+=1```을 할 경우 결과가 1,2,3이 고루 나옴이 보장된다.
+여러번 코드를 실행해보면 ```count++```를 할 경우 결과가 1,2,3이 고루 나오지 않을 수 있고, ```AtomicInteger```를 할 경우 결과가 1,2,3이 고루 나옴이 보장된다.
 
 ### 3. 스레드 로컬 저장소(thread local storage)
 공유자원을 최대한 줄이고 각각의 스레드만 접근 가능한 저장소를 사용함으로서 동시접근을 막는 방법이다. 전역 변수 사용에 유의하라고 해석하면 된다.
