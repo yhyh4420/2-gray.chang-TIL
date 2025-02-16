@@ -37,6 +37,7 @@
 * [HTTP message](TIL_sortbyContents/HTTP_Message.md)
 * [Cookie, Session, JWT](TIL_sortbyContents/Cookie_Session_JWT.md)
 * [WebSocket](TIL_sortbyContents/Websocket.md)
+* [Authorization Header](TIL_sortbyContents/HTTP_Authorization_Header.md)
 
 ### BE
 * [Dependency Injection](TIL_sortbyContents/Dependency_Injection.md)
