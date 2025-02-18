@@ -9,7 +9,7 @@
 - 인증 방식
   - 기본 인증
   - 다이제스트 인증
-  - Bearer 토큰
+  - Bearer 인증
   - OAuth
 ---
 ### 기본 인증
@@ -64,7 +64,15 @@
 * 이 계산결과를 Authorization 헤더에 포함시켜 전송
 
 
-### Bearer 토큰
+### Bearer 인증
+[토스페이먼츠 기술블로그](https://docs.tosspayments.com/resources/glossary/bearer-auth#%ED%86%A0%EC%8A%A4%ED%8E%98%EC%9D%B4%EB%A8%BC%EC%B8%A0-bearer-%EC%9D%B8%EC%A6%9D)
+* OAuth 2.0 프레임워크에서 사용하는 토큰 기반 인증 방식
 * 토큰의 형태로 인증에 필요한 정보를 서버에 전송함
+  * 토큰의 형태는 JWT일 수도 있고, 인코딩된 문자열일 수도 있음
+  * 서버 입장에서는 토큰을 발급만 해주고 보관할 필요가 없음.
+  * 하지만 탈취당하면 탈취한 사람이 토큰을 사용할 수 있다는 보안적 단점이 존재하는데, 이것을 해결하기 위해서 각종 보안조치를 한다.
+    * (클라이언트 기준) 수정, 삭제 등 중요한 요청 시 매번 랜덤의 CSRF 토큰을 생성하여 이 토큰도 request에 같이 보내서 검증함.
+      * Spring Security 사용 시 기본값으로 적용된다.
+    * Cookie SameSite 옵션 설정, referer check(request 보낸 도메인 확인)을 통해 쿠키 탈취에 대응할 수 있다.
+    * (서버 기준) Access Token의 수명을 짧게 만들어 재발급 시 Refresh Token을 같이 제시해야 토큰 재발급을 허용하는 로직을 구현할 수 있다.
 * 서버로부터 받은 Access Token을 Authorization 헤더에 포함하여 전송
-* 예시 : JWT
