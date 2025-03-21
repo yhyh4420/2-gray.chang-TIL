@@ -1,0 +1,113 @@
+### AOP란?
+Aspect Oriented Programming, 관점 지향 프로밍으로 관점을 중심으로 모듈화하는 프로그래밍 기법으로, 객체지향 프로그래밍과 보완 관계이다.
+- 왜 보완관계인가?
+    - AOP를 통해 횡단 관심사를 모듈화하여 코드 중복을 제거하고 핵심 로직의 가독성을 향상시킬 수 있기 때문이다.
+    - OOP가 핵심 로직을 구현한다면, AOP는 횡단 관심사 문제를 보완하는 보조 패러다임이다.
+        - 핵심 관심사 : 애플리케이션의 비즈니스 로직 그 자체
+        - 횡단 관심사 : 여러 핵심 로직에 공통적으로 적용되는 기능(로깅, 보안, 트랜잭션 등)
+
+### 프록시 객체란?
+실제 객체를 감싸서 실제 객체와 유사한 역할을 하는 객체
+- 프록시 객체를 통해 수정 등의 로직을 수행할 때 실제 객체를 안전하게 보관하고 프록시 객체에서 해당 작업을 수행할 수 있다.
+    - 프록시 객체는 실제 객체를 참조하고 있으며, 메서드 호출 시 프록시가 메서드를 가로챈 후 실제 객체의 메서드를 직접 호출한다.
+      예시
+    - 인터페이스
+      ```java
+      public interface Service{
+      void action(); 
+      } 
+      ```
+    - 실제 객체(비즈니스 로직)
+      ```java
+      public class ServiceImpl implements Service{
+          
+          @Override
+          public void action(){
+          System.out.println("......실제 서비스 로직.......");
+          }
+      }
+      ```
+    - 프록시 객체
+      ```java
+      public class ServiceProxy implements Service {
+          private final ServiceImpl serviceImpl;
+          private final String userRole;
+      
+          public ServiceProxy(ServiceImpl serviceImpl, String userRole) {
+              this.serviceImpl = serviceImpl;
+              this.userRole = userRole;
+          }
+      
+          @Override
+          public void action() {
+              System.out.println("[프록시] 사용자 권한 확인 중");
+              if (!userRole.equals("admin")) {
+                  System.out.println("[프록시] 사용자 권한 부족, 관리자가 아닙니다. 현재 유저 권한 : " + userRole);
+                  return;
+              }
+              System.out.println("[프록시] 사용자 권한 확인 완료! 현재 유저 권한 : " + userRole);
+              serviceImpl.action();
+          }
+      }
+      ```
+    - Main
+  ```java
+    public class ProxyMain {
+        public static void main(String[] args) {
+        Service serviceProxy = new ServiceProxy(new ServiceImpl(), "admin");
+        serviceProxy.action();
+        System.out.println();
+
+        Service serviceProxy1 = new ServiceProxy(new ServiceImpl(), "guest");
+        serviceProxy1.action();
+        }
+    }
+  
+  /*
+  결과 : 
+    [프록시] 사용자 권한 확인 중
+    [프록시] 사용자 권한 확인 완료! 현재 유저 권한 : admin
+    ......실제 서비스 로직.......
+    
+    [프록시] 사용자 권한 확인 중
+    [프록시] 사용자 권한 부족, 관리자가 아닙니다. 현재 유저 권한 : guest
+  */
+  ```
+
+### AOP 프록시란?
+- 프록시에 대한 설명으로 돌아가보자. 프록시는 진짜 객체를 감싸는 등의 방식을 통해 객체로의 접근을 제어하는 역할을 한다.
+- AOP는 횡단관심사를 모듈화하여 관리하는 것이 목적이며, 이를 위해 프록시 패턴을 사용한다.
+- 스프링에서 AOP 프록시 객체를 생성하는 과정
+    1. 개발자가 AOP로 적용할 aspect을 정의한다.(```@Aspect```)
+    2. ```@component```어노테이션으로 인해 Bean으로 등록되며, 추가적으로 ```@EnableAspectJAutoProxy```를 통해 AOP 프록시 생성기가 활성화된다.
+    3. ```@EnableAspectJAutoProxy```로 인해 ```AnnotationAwareAspectAutoProxyCreator```라는 빈 후처리기 동작한다.
+        - ```AnnotationAwareAspectAutoProxyCreator```는 ```@Aspect```어노테이션을 붙인 클래스를 Advisor로 변환하여 저장한다.
+        - Advisor 내 pointcut을 확인하여 프록시가 필요한 곳에 자동으로 적용해줌(이때 빈 컨테이너에 등록된 빈을 확인하여 Pointcut, advice가 존재하면 프록시 객체로 감싸고 프록시 객체를 등록한다.)
+    4. 최종적으로 JDK 동적 프록시, CGLIB 동적 프록시에 의해 프록시 객체가 생성되고, 이 프록시 객체가 컨테이너에 등록된다.
+    5. 우리는 실제 서비스객체를 사용하듯이 사용하지만, 사실은 빈에 등록된 프록시 객체를 사용하게 되는 것이다.
+
+### JDK 동적 프록시와 CGLIB의 차이점?
+* JDK 동적 프록시 : JDK에서 제공함, 인터페이스 기반으로 프록시를 생성해주는 방식
+    * 인터페이스를 기반으로 프록시 객체를 생성하기 때문에 인터페이스는 반드시 정의되어있어야 함
+    * ```InvokationHandler```로 메서드 호출을 가로챔
+        * InvocationHandler를 상속받는 핸들러를 만들고 그걸 통해서 프록시 객체 생성, JVM은 invoke 메서드를 실행시켜 프록시 객체를 만든다.
+            * ```invoke(Object proxy, Method method, Object[] args)```
+    * 자바에서는 리플랙션을 활용한 프록시 클래스를 제공하고 있음
+        * 리플랙션(Reflection)이란? : 구체적인 클래스 타입을 알지 못해도 그 클래스의 정보에 접근할 수 있게 해주는 자바 API
+            * JVM이 실행되면 자바 코드는 컴파일러를 거쳐 바이트 코드로 변환되어 static 영역에 저장되는데, 리플랙션은 이 정보를 활용해 필요한 정보를 가져온다.
+* CGLIB(Code Generation LIBrary) : 인터페이스가 아닌 구현체 클래스를 기반으로 바이트코드를 조작하여 프록시를 생성하는 방식(ASM이라는 저수준 바이트코드 조작 라이브러리 사용)
+    * 인터페이스를 설정하지 않아도 구현체를 상속받아 프록시화할 메서드를 오버라이딩 하는 방식으로 진행
+    * 구현체를 상속하기 때문에 final 키워드가 붙으면 프록시화할 수 없다.(final class, final method 등..)
+    * ```Enhancer```를 사용하여 구현하며, enhancer에 setSuperClass를 통해 구현체를 부모클래스로 지정한다.
+
+|     구분      |           JDK 동적 프록시           |         CGLIB         |
+|:-----------:|:------------------------------:|:---------------------:|
+|     기반      |         JDK 제공 자바 리플랙션         |       바이트코드 조작        |
+|   프록시 대상    |             인터페이스              |          구현체          |
+| 인터페이스 필요 여부 |              필요함               |         필요없음          |
+|    구현 방식    | InvocationHandeler로 메서드 호출 가로챔 |   상속 방식으로 메서드 오버라이딩   |
+|    제한사항     |          인터페이스가 꼭 필요함          | final 키워드가 붙으면 프로시 불가 |
+
+### Spring에서 프록시는 어떻게 설정하나?
+- 기본값은 인터페이스가 있으면 JDK 프록시, 없으면 CGLIB로 프록시 생성
+- ```@EnableAspectJAutoProxy(proxyTargetClass = true)``` 설정 시 강제로 CGLIB 전략으로 프록시 생성
