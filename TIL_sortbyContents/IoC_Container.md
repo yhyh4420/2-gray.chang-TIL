@@ -1,0 +1,31 @@
+최대한 **공식문서** + 구글검색을 참고했다.
+### IoC(Inversion of Control, 제어의 역전) 이란?
+- 쉽게 말해서 '개발자는 비즈니스 로직에만 집증하게 하고 나머지는 프레임워크로 위임해!'이다.
+- IoC란 개발자가 직접 ```new```키워드를 통해 객체를 생성하지 않고 객체의 생명주기 관리를 외부에 위임하는 것이다.
+- 객체의 생성과 소멸까지의 생명주기를 스프링 컨테이너(aka IoC 컨테이너, 빈 컨테이너)로 위임하는데, 이렇게 제어권을 넘기는 것을 제어의 역전이라고 한다.
+- 제어의 역전을 통해 DI(Dependency Injection)과 AOP가 가능해진다.
+
+### DI(Dependency Injection, 의존성 주입)
+- 제어 역전이란 IoC를 구현하는 여러 패턴 중 많이 사용되는 방법이다.
+- 사용할 객체를 직접 생성하지 않고 외부 컨테이너가 생성한 객체를 주입받아 사용하는 방식이다.
+  - 참고 : IoC를 구현하는 방법에는 Factory pattern, Template Method Pattern, Service Location Pattern, DI가 있다.
+    - Factory Pattern : 객체 생성을 전담하는 팩토리 클래스를 두어 객체를 생성
+    - Template Method Pattern : 객체 생성 과정을 추상화
+    - Service Location Pattern : 객체의 생성과 관리에 대한 책임을 가지는 클래스를 따로 두고 그 클래스에서 객체를 가져오는 방법
+- 의존성 주입 방법에는 ```@Autowired```, Setter, Constructor가 있다. 그 중 Constructor방식을 스프링에서는 권장한다.
+  - 왜?
+    - 주입할 객체를 불변객체로 구현할 수 있게 하고, 종속성에 null이 들어가지 않게 강제할 수 있다. 또한 주입할 객체를 초기화해준다. 
+    - 또한 스프링 공식문서에서는 constructor를 구성하는 파라미터의 숫자가 많으면 **나쁜 코드의 냄새**가 나는거니까 리팩토링의 필요성을 빠르게 느낄 수 있다고도 서술한다.
+      - _As a side note, a large number of constructor arguments is a **bad code smell**, implying that the class likely has too many responsibilities and should be refactored to better address proper separation of concerns._
+      - 참고로 스프링 4.3부터는 불변 객체로 구성된 constructor에 대해서는 @Autowired 어노테이션을 생략해도 의존성 주입을 해준다.
+
+### IoC 컨테이너란?
+- 빈 객체의 생성 및 관리, 의존성 주입 및 빈의 생명주기를 관리하는 프레임워크
+- 구현방식 : BeanFactory, ApplicationContext
+  - BeanFactory : IoC 컨테이너의 최상위 인터페이스
+    - Lazy loading기반, 빈을 요청하면 그때 생성한다.
+    - 필요할 때만 빈을 생성하므로 경량화 환경이나 리소스 사용 제한 시 사용된다.
+  - ApplicationContext : BeanFactorya를 상속받는 하위 인터페이스, 스프링부트의 기본방식
+    - Eager loading 기반, 어플리케이션 시작 시 모든 빈을 미리 만들어놓음
+    - 국제화, 메시지소스, 이벤트, AOP등 많은 기능 지원
+    - 스프링에서 어노테이션 사용 시 AnnotationConfigApplicationContext를 실행함.

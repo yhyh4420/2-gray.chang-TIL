@@ -44,6 +44,7 @@
 * [Dependency Injection](TIL_sortbyContents/Dependency_Injection.md)
 * [RESTful API](TIL_sortbyContents/RESTful_API.md)
 * [Bean Container](TIL_sortbyContents/Bean_Container.md)
+* [AOP and Proxy](TIL_sortbyContents/AOP_and_Proxy.md)
 
 ### FE
 * [CRP, DOM, CSSOM, Virtual DOM](TIL_sortbyContents/CRP_and_Virtual_DOM.md)
