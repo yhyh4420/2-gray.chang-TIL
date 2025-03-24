@@ -14,7 +14,7 @@ Aspect Oriented Programming, 관점 지향 프로밍으로 관점을 중심으�
     - 인터페이스
       ```java
       public interface Service{
-      void action(); 
+        void action(); 
       } 
       ```
     - 실제 객체(비즈니스 로직)
@@ -23,7 +23,7 @@ Aspect Oriented Programming, 관점 지향 프로밍으로 관점을 중심으�
           
           @Override
           public void action(){
-          System.out.println("......실제 서비스 로직.......");
+            System.out.println("......실제 서비스 로직.......");
           }
       }
       ```
@@ -98,6 +98,7 @@ Aspect Oriented Programming, 관점 지향 프로밍으로 관점을 중심으�
 * CGLIB(Code Generation LIBrary) : 인터페이스가 아닌 구현체 클래스를 기반으로 바이트코드를 조작하여 프록시를 생성하는 방식(ASM이라는 저수준 바이트코드 조작 라이브러리 사용)
     * 인터페이스를 설정하지 않아도 구현체를 상속받아 프록시화할 메서드를 오버라이딩 하는 방식으로 진행
     * 구현체를 상속하기 때문에 final 키워드가 붙으면 프록시화할 수 없다.(final class, final method 등..)
+      * 왜? => final 키워드를 붙인 불변객체의 경우 상속이 불가능하기 때문이다. 
     * ```Enhancer```를 사용하여 구현하며, enhancer에 setSuperClass를 통해 구현체를 부모클래스로 지정한다.
 
 |     구분      |           JDK 동적 프록시           |         CGLIB         |
@@ -111,3 +112,12 @@ Aspect Oriented Programming, 관점 지향 프로밍으로 관점을 중심으�
 ### Spring에서 프록시는 어떻게 설정하나?
 - 기본값은 인터페이스가 있으면 JDK 프록시, 없으면 CGLIB로 프록시 생성
 - ```@EnableAspectJAutoProxy(proxyTargetClass = true)``` 설정 시 강제로 CGLIB 전략으로 프록시 생성
+
+### 클래스 내부에서 프록시 적용된 메서드가 다른 메서드를 호출할 때 프록시가 적용되지 않는데, 적용되지 않는 이유랑 해결방안?
+- 프록시를 거치지 않고 대상 객체를 직접 호출하게 되면 AOP가 적용되지 않는다.
+  - 프록시가 적용된 객체 내부 메서드에서 직접 호출할 경우 프록시가 적용된 객체의 메서드를 호출하는 것이 아닌 실제 객체의 메서드를 호출하게 되므로 프록시, AOP를 우회하게 된다.
+- 해결법
+  1. 자기 자신을 프록시로 주입하는 방법, 이 방법은 스프링 2.6버전 이후부터 순환 참조 오류가 발생하게 되므로 설정파일(application.properties / application.yml)에 ```allow-circular-reference=true```를 해줘야 한다.
+  2. 지연 조회, 빠르게 해결 가능하지만 여전히 순환참조 위험이 있고 향후 유지보수가 어렵다. 
+  3. 구조 변경
+     - 가장 괜찮은 방법, 구조를 분리하면 다른 Bean의 호출이 되어버리기 때문에 정상적으로 AOP를 유지할 수 있다. 
