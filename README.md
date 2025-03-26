@@ -56,4 +56,4 @@
 ### Repository critical history
 - 2025.01.21. Initialize Repository
 - 2025.02.03. Transfer Repository to organization(100-hours-a-week)
-- 2025.03.25. Add TotT directory
+- 2025.03.25. Add TotT(Tech of the Toilet) directory
