@@ -1,4 +1,4 @@
-출처 : [google Testing Blog](https://testing.googleblog.com/)
+출처 : [google Testing Blog](https://testing.googleblog.com/2025/01/arrange-your-code-to-communicate-data.html)
 
 주된 내용은 데이터 흐름이 잘 보이게 코드를 작성하자는 말이다.(공부하면서 번역하는거라 다소 의역 있음)
 * 우리는 코드를 한줄씩 차례대로 읽는다.
