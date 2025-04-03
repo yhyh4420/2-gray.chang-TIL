@@ -52,6 +52,7 @@
 ### Tech on the Toilet(from google test blog)
 * [데이터 플로우를 돋보이게 코드 구현하는 법](TIL_sortbyContents/Tech_on_the_Toilet/Arrange_Your_Code_to_Communicate_Data_Flow.md)
 * [테스트 수행 시 SMURF](TIL_sortbyContents/Tech_on_the_Toilet/SMURF_Beyond_the_Test_Pyramid.md)
+* [도메인 객체를 사용하자](TIL_sortbyContents/Tech_on_the_Toilet/Write_Change-Resilient_Code_With_Domain_Objects.md)
 
 ---
 ### Repository critical history
