@@ -56,4 +56,4 @@
 생각보다 많은 사람들이 나같은 의문을 가지고 있는 것 같다.([stack overflow](https://stackoverflow.com/questions/42763146/does-it-make-sense-to-store-jwt-in-a-database), [Stack Exchange](https://softwareengineering.stackexchange.com/questions/373109/should-we-store-jwts-in-database))<br>
 DB를 유지하는 이유는 JWT를 사용하면서 자동로그인 기능을 더 견고하게 유지하기 위해서라고 이해된다.
 * 위 글에서 언급된 아키텍쳐를 대충 뜯어보자면, 각 서버에서 별도의 토큰DB를 참조하고, 이를 통해 서버가 다운되도 정보가 유지된다는 장점을 가져간다.
-* 사실 아직도 드는 의문은 '이럴거면 세션쓰지'인데, kevin에게 질의를 남겼으니 한번 답변을 보고 다시 정리해야겠다.
+* 둘 다 결국 trade-off가 있고, 맹목적으로 기술을 사용하는 것 보다는 이유를 알고 쓰는것이 중요하다는 생각이 든다.
